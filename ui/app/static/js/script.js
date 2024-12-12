@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function resetModel(){
+        window.location.reload();
+    }
     
     function setIndicatorState(isTranslating) {
         translationIndicator.style.backgroundColor = isTranslating ? 'green' : 'red';
@@ -58,21 +61,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const newUniqueGestures = newGestures.filter(gesture => !lastGestures.includes(gesture));
         if (newUniqueGestures.length > 0) {
             lastGestures.push(...newUniqueGestures);
-            if (lastGestures.length > 10) {
-                lastGestures = lastGestures.slice(-10); 
+            if (lastGestures.length > 12) {
+                lastGestures = lastGestures.slice(-12); 
             }
-            gestureString += ' ' + newUniqueGestures.join(); 
+            gestureString += ' ' + newUniqueGestures.join(' '); 
             console.log("Updated Gesture String:", gestureString);
+            
             displayGestureHistory(gestureString);
         }
     }
 
     function displayGestureHistory(gesture) {
         const inputTextElement = document.getElementById('input-text');
-        if (isNewLineTriggered) {
-            newLine();
-            isNewLineTriggered = false;
-        }
         if (inputTextElement) {
             inputTextElement.innerHTML = gesture;
         }
@@ -81,10 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function translateGesture(gesture) {
         const selectedLanguage = languageSelect.value;
-        if (isNewLineTriggered) {
-            newLine();
-            isNewLineTriggered = false;
-        }
         if (!selectedLanguage) {
             translatedDiv.innerHTML = "Text and language are required.";
             return;
@@ -111,29 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
             translatedDiv.innerHTML = 'An error occurred while translating.';
         }
     }
-
-    function resetNewLineTrigger() {
-        isNewLineTriggered = true;
-    }
-
-    function newLine() {
-        const inputTextElement = document.getElementById('input-text');
-        const translatedTextElement = document.getElementById('translated-op');
-        if (inputTextElement) {
-            if (!inputTextElement.innerHTML.trim().endsWith('.')) {
-                inputTextElement.innerHTML += '.';
-            }
-            inputTextElement.innerHTML += '<br>';
-        }
-        if (translatedTextElement) {
-            if (!translatedTextElement.innerHTML.trim().endsWith('.')) {
-                translatedTextElement.innerHTML += '.';
-            }
-            translatedTextElement.innerHTML += '<br>';
-        }
-        gestureString = ''; // Clear the gesture string
-    }
-
 
 //speak (text to speech)
 document.getElementById("speak-btn").addEventListener("click", function () {
@@ -176,41 +149,7 @@ document.getElementById("speak-btn").addEventListener("click", function () {
 });
 
     window.runModel = runModel;
-    window.resetNewLineTrigger = resetNewLineTrigger;
+    window.resetModel = resetModel;
 });
-
-let gestureInterval = null;
-let gestureString = ''; 
-
-function stop() {
-    if (gestureInterval) {
-        clearInterval(gestureInterval);
-        gestureInterval = null;
-    }
-    const videoElement = document.getElementById('videoElement');
-    if (videoElement) {
-        videoElement.src = "";
-        videoElement.style.display = "none";
-    }
-
-    const overlayImage = document.getElementById('overlayImage');
-    if (overlayImage) {
-        overlayImage.style.display = "block";
-    }
-    const inputTextElement = document.getElementById('input-text');
-    if (inputTextElement) {
-        inputTextElement.innerHTML = '';
-    }
-    const translatedDiv = document.getElementById('translated-op');
-    if (translatedDiv) {
-        translatedDiv.innerHTML = '';
-    }
-    const translationIndicator = document.getElementById("translation-indicator");
-    if (translationIndicator) {
-        translationIndicator.style.backgroundColor = 'red';
-        translationIndicator.textContent = "Model stopped.";
-    }
-    console.log("Model has stopped.");
-}
 
 

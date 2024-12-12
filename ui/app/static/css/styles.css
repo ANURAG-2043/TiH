@@ -192,7 +192,7 @@ nav .nav-links li a {
     font-size: 1.2em;
 }
 
-.start-btn, .reset-btn .stop-btn{
+.start-btn, .reset-btn{
     background-color: #333;
     color: white;
     border: none;
