@@ -1,0 +1,53 @@
+<body>
+    <div class="video-container">
+        <h1>Sign Language Translator</h1>
+        <div id="translation-indicator"></div>
+        <div class="video-box">
+        <img id="overlayImage" src="{{ url_for('static', filename='images/translator.jpg') }}" alt="Temporary Overlay">
+        <img id="videoElement" autoplay muted playsinline style="width: 650px; height: 600px;">
+    </div>
+    </div>
+
+    <div class="translation-options">
+        <div class="search-bar">
+                 <select id="language" name="language">
+                    <option value="Hindi">Hindi</option>
+                    <option value="Marathi">Marathi</option>
+                    <option value="English">English</option>
+                    <option value="Urdu">Urdu</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Telugu">Telugu</option>
+                    <option value="Bengali">Bengali</option>
+                    <option value="Arabic">Arabic</option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="Odia">Odia</option>
+                    <option value="Malayalam">Malayalam</option>
+                    <option value="Punjabi">Punjabi</option>
+                    <option value="Gujarati">Gujarati</option>
+                    <option value="Sindhi">Sindhi</option>
+                    <option value="Nepali">Nepali</option>
+                </select>
+            <button class="start-btn" onclick="runModel()">Start</button>
+        </div>
+        <div class="translation-output" id="input-text" style="font-size: 20px;">
+        </div>
+
+        <div class="translation-output" id="translated-op" style="font-size: 20px;">
+        </div>
+        <div class="reset-section">
+            <button class="reset-btn" onclick="resetNewLineTrigger()" style="margin-right: 20px">Reset</button>
+            <button class="stop-btn" onclick="stop()" style="margin-right: 20px">Stop</button>
+            <div class="icon">
+                <img src="{{ url_for('static', filename='images/sound.png') }}" alt="sound" id="speak-btn">
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js')}}"></script>
+    
+</body>
+
+
+
+
+
+

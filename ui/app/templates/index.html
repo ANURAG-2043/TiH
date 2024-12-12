@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}ISHAARA - Home{% endblock %}
+
+{% block content %}
+
+     <!-- Navigation -->
+     <nav>
+        <div class="logo">
+            <a href="#">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="ISHAARA Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#how-to-use">How To Use</a></li>
+            <li><a href="#about-us">About Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Your Hands Do The Talking, <br> We'll Do The Translating!</h1>
+        <p>Your Signs, Their Words.</p>
+        
+    </section>
+
+    <!-- Translation Area -->
+    <section class="translation-area">
+        {% include 'translate.html' %}
+    </section>
+
+    <section class="how-to-use" id="how-to-use">
+        <!-- Steps on how to use the app -->
+        <div class="steps-container">
+            <div>
+                <h2>How To Use</h2>
+                <ol>
+                    <li><strong>Step 1:</strong> Choose a language from the given set of languages.</li>
+                    <li><strong>Step 2:</strong> Click the 'Start' button, the camera starts.</li>
+                    <li><strong>Step 3:</strong> The sign language will be translated into your selected language.</li>
+                    <li><strong>Step 4:</strong> Use 'Reset' button to restart.</li>
+                </ol>
+            </div>
+            <img src="{{ url_for('static', filename='images/tab.png') }}" alt="Tablet">
+        </div>
+    </section>
+
+    <section class="about-us" id="about-us">
+        <h2>About Us</h2>
+        <p>Here at Ishaara, we believe communication should be accessible to everyone, regardless of the language they speak or the way they express themselves. Our app is designed to bridge the gap between sign language users and the wider world by translating sign language into multiple spoken languages like Hindi, English, Marathi, and many more.</p>
+        <p>Whether you're a sign language user, a learner, or someone wanting to communicate with the mute and hard-of-hearing community, Ishaara makes it easier to connect. Our cutting-edge technology empowers individuals by turning signs into words, fostering inclusion and breaking down communication barriers.</p>
+        <p>Our mission is simple: to create a world where no one is left out of a conversation, where language is never a barrier, and where everyone’s voice—spoken or signed—is heard. By combining innovation with empathy, we aim to build a platform that not only facilitates communication but also brings people closer. Join us on our journey to make the world more accessible, one sign at a time.</p>
+    </section>
+
+{% endblock %}
