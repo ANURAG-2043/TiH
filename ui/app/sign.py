@@ -19,7 +19,7 @@ landmark_spec = mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_ra
 connection_spec = mp_drawing.DrawingSpec(color=(0, 0, 0), thickness=3)  
 
 labels_dict = {
-    0: 'Hello', 1: 'Okay', 2: 'Poor', 3: 'ILY', 
+    0: 'Hello', 1: 'Okay', 2: 'Poor', 3: 'I Love You', 
     4: 'Help', 5: 'What', 6: 'Happy', 7: 'Good', 
     8: 'Promise', 9: 'No'
 }

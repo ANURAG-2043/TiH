@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const translatedDiv = document.getElementById("translated-op");
     const languageSelect = document.getElementById('language');
 
-    let isNewLineTriggered = false; 
+    // let isNewLineTriggered = false; 
     let isModelRunning = false; 
     let gestureInterval; 
-    let gestureString = '';
-    let lastGestures = [];
+    // let gestureString = '';
+    // let lastGestures = [];
+    let currentGesture = null;
+    let lastGesture = null;
 
     setIndicatorState(false);
 
@@ -50,34 +52,63 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const response = await fetch('/get_gestures');
                 const data = await response.json();
-                checkAndDisplayNewGestures(data.gesture); // Process unique gestures
+                if (data.gesture && Array.isArray(data.gesture)) {
+                    data.gesture.forEach(gesture => {
+                        const inputTextElement = document.getElementById('input-text');
+                        // Update current and last gesture, and only process if they're different
+                        if (gesture !== currentGesture) {
+                            lastGesture = currentGesture; // Set last gesture to the previous current
+                            currentGesture = gesture;    // Update current gesture
+                            inputTextElement.innerHTML = gesture; // Display the gesture
+                            translateGesture(gesture); // Display and translate the gesture
+                        } else {
+                            console.log("Duplicate gesture skipped:", gesture);
+                        }
+                    });
+                } else {
+                    console.error("Invalid gesture data format:", data);
+                }
             } catch (error) {
                 console.error("Failed to fetch gesture:", error);
             }
-        }, 2500);
+        },2500);
     }
 
-    function checkAndDisplayNewGestures(newGestures) {
-        const newUniqueGestures = newGestures.filter(gesture => !lastGestures.includes(gesture));
-        if (newUniqueGestures.length > 0) {
-            lastGestures.push(...newUniqueGestures);
-            if (lastGestures.length > 12) {
-                lastGestures = lastGestures.slice(-12); 
-            }
-            gestureString += ' ' + newUniqueGestures.join(' '); 
-            console.log("Updated Gesture String:", gestureString);
+    // function checkAndDisplayNewGestures(newGestures) {
+    //     const newUniqueGestures = newGestures.filter(gesture => !lastGestures.includes(gesture));
+    //     if (newUniqueGestures.length > 0) {
+    //         lastGestures.push(...newUniqueGestures);
+    //         if (lastGestures.length > 12) {
+    //             lastGestures = lastGestures.slice(-12); 
+    //         }
+    //         gestureString += ' ' + newUniqueGestures.join(' '); 
+    //         console.log("Updated Gesture String:", gestureString);
             
-            displayGestureHistory(gestureString);
-        }
-    }
+    //         displayGestureHistory(gestureString);
+    //     }
+    // }
 
-    function displayGestureHistory(gesture) {
-        const inputTextElement = document.getElementById('input-text');
-        if (inputTextElement) {
-            inputTextElement.innerHTML = gesture;
-        }
-        translateGesture(gesture);
-}
+    // function checkAndDisplayNewGestures(newGestures) {
+    //     const newGesture = newGestures.find(gesture => !lastGestures.includes(gesture));
+    //     if (newGesture) {
+    //         lastGestures.push(newGesture);
+    //         console.log("Displaying Gesture:", newGesture);
+    //         if (lastGestures.length > 10) {
+    //             lastGestures.shift();
+    //         }
+    //         displayGestureHistory(newGesture);
+    //     } else {
+    //         console.log("No new unique gesture found.");
+    //     }
+    // }
+
+//     function displayGestureHistory(gesture) {
+//         const inputTextElement = document.getElementById('input-text');
+//         if (inputTextElement) {
+//             inputTextElement.innerHTML = gesture;
+//         }
+//         translateGesture(gesture);
+// }
 
     async function translateGesture(gesture) {
         const selectedLanguage = languageSelect.value;
